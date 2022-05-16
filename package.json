@@ -1,0 +1,11 @@
+{
+  "name": "update-file-deps",
+  "version": "0.0.1",
+  "type": "module",
+  "bin": {
+    "update-file-deps": "./update-file-deps.js"
+  },
+  "dependencies": {
+    "fs-extra": "^10.1.0"
+  }
+}
