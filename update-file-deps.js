@@ -33,12 +33,13 @@ if (pkg._moduleCopies)
 for (let packageName in fileDeps) {
 	let packagePath=fileDeps[packageName];
 
-	console.log(`Updating file dependency ${packageName} from ${packagePath}`);
+	console.log(`Updating file dependency ${packageName}`);
 
-	if (fs.existsSync(`${packagePath}/node_modules`))
-		throw new Error("There is a node_modules in the package dir, it will be wierd...");
+	/*if (fs.existsSync(`${packagePath}/node_modules`))
+		throw new Error("There is a node_modules in the package dir, it will be wierd...");*/
 
 	if (fs.existsSync(`node_modules/${packageName}`)) {
+		console.log(`  ...removing curent ${packageName}`);
 		let stat=fs.lstatSync(`node_modules/${packageName}`);
 		if (stat.isSymbolicLink())
 			throw new Error("It is a symlink");
@@ -46,5 +47,11 @@ for (let packageName in fileDeps) {
 		fs.rmSync(`node_modules/${packageName}`,{recursive: true, force: true});
 	}
 
-	fs.copySync(packagePath,`node_modules/${packageName}`);
+	console.log(`  ...copying from ${packagePath}`);
+	fs.mkdirSync(`node_modules/${packageName}`);
+	let ignore=["node_modules","yarn.log","package-lock.json"];
+
+	for (let fn of fs.readdirSync(packagePath))
+		if (!ignore.includes(fn))
+			fs.copySync(`${packagePath}/${fn}`,`node_modules/${packageName}/${fn}`);
 }
