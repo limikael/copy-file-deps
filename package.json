@@ -1,9 +1,9 @@
 {
-  "name": "update-file-deps",
+  "name": "copy-file-deps",
   "version": "0.0.1",
   "type": "module",
   "bin": {
-    "update-file-deps": "./update-file-deps.js"
+    "copy-file-deps": "./copy-file-deps.js"
   },
   "dependencies": {
     "fs-extra": "^10.1.0"
